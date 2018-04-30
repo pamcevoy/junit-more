@@ -11,44 +11,63 @@ import org.junit.Test;
  * @author Patrick
  */
 public class FieldAccessorTest {
-
+    /**
+     * Able to get a member field.
+     */
     @Test
     public void testGetFieldValue() {
-        MockChild child = new MockChild("Jimmy", 6);
-        Assert.assertEquals("Jimmy", FieldAccessor.getValue(child, "name"));
+        SomeTestSubclass someObject = new SomeTestSubclass("John", 6);
+        Assert.assertEquals("John", FieldAccessor.getValue(someObject, "name"));
     }
 
+    /**
+     * Able to set member fields.
+     */
     @Test
     public void testSetFieldValue() {
-        MockChild child = new MockChild("Jimmy", 6);
-        FieldAccessor.setValue(child, "name", "James");
-        Assert.assertEquals("James", child.getName());
+        SomeTestSubclass someObject = new SomeTestSubclass("John", 7);
+
+        FieldAccessor.setValue(someObject, "name", "Quincy");
+        Assert.assertEquals("Quincy", MethodAccessor.invoke(someObject, "getName"));
+
+        FieldAccessor.setValue(someObject, "number", 8);
+        Assert.assertEquals(8, FieldAccessor.getValue(someObject, "number"));
     }
 
+    /**
+     * Able to read a static field.
+     */
     @Test
     public void testGetStaticFieldValue() {
-        MockChild.setNegativeAllowed(true);
-        Assert.assertTrue((Boolean)FieldAccessor.getValue(MockChild.class, "allowNegative"));
+        SomeTestSubclass.setNegativeAllowed(true);
+        Assert.assertTrue((Boolean)FieldAccessor.getValue(SomeTestSubclass.class, "allowNegative"));
     }
 
+    /**
+     * Able to set a static field.
+     */
     @Test
     public void testSetStaticFieldValue() {
-        MockChild.setNegativeAllowed(true);
-        FieldAccessor.setValue(MockChild.class, "allowNegative", Boolean.FALSE);
-        Assert.assertFalse(MockChild.isNegativeAllowed());
+        SomeTestSubclass.setNegativeAllowed(true);
+        FieldAccessor.setValue(SomeTestSubclass.class, "allowNegative", Boolean.FALSE);
+        Assert.assertFalse(SomeTestSubclass.isNegativeAllowed());
     }
 
+    /**
+     * An AccessorException is thrown if the field does not exist.
+     */
     @Test
     public void testInvalidField() {
-        MockParent parent = new MockParent("Charlie");
-
         AccessorException caughtException = null;
         try {
+            SomeTestClass parent = new SomeTestClass("Charlie");
             FieldAccessor.getValue(parent, "zzz");
         }
         catch (AccessorException e) {
             caughtException = e;
         }
-        Assert.assertNotNull("Should throw NoSuchFieldException", caughtException);
+        Assert.assertNotNull("Should throw AccessorException", caughtException);
+        Assert.assertNotNull("Should throw NoSuchFieldException", caughtException.getCause());
+        Assert.assertEquals("Invalid field : zzz", caughtException.getCause().getMessage());
     }
 }

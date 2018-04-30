@@ -1,6 +1,5 @@
 /**
  * (c) Copyright 2018 Patrick McEvoy
- * Well ISS.net or Charlie and Prashant probably have copyright.
  */
 package ext.junit.more.reflect;
 
@@ -10,13 +9,16 @@ import org.junit.Test;
 /**
  * Tests for {@link MethodAccessor}.
  * <p>
- * Same thing - I found this years ago but the project disappeared from
- * sourceforge/googlecode, so I added it here and made modifications.
+ * I found this years ago but the project disappeared from sourceforge/googlecode,
+ * so I added it here and made modifications.  Originally by Charlie Hubbard and
+ * Prashant Dhokte.
  *
- * @author Charlie Hubbard (chubbard@iss.net)
- * @author Prashant Dhokte (pdhokte@iss.net)
+ * @author Patrick McEvoy
  */
 public class MethodAccessorTest {
+    /**
+     * Pass in some objects and get back their types.
+     */
     @Test
     public void testGetArgTypes() {
         Class<?>[] expectedTypes = {
@@ -32,101 +34,142 @@ public class MethodAccessorTest {
         Assert.assertArrayEquals(expectedTypes, getArgTypes(new Object[] { args }));
     }
 
+    /**
+     * Pass in a null object and get back null type.
+     */
     @Test
     public void testGetArgTypesNullEntry() {
         Class<?>[] expectedTypes = new Class<?>[] {
-            String.class,
+            StringBuilder.class,
             null,
             Integer.class,
         };
         Object[] args = {
-            "String",
+            new StringBuilder("SomeString"),
             null,
             Integer.valueOf(123),
         };
         Assert.assertArrayEquals(expectedTypes, getArgTypes(new Object[] { args }));
     }
 
+    /**
+     * Pass in empty array and get back empty array.
+     */
     @Test
-    public void testGetArgTypesNullArray() {
-        Class<?>[] expectedTypes = new Class<?>[] {};
-        Object[] args = null;
+    public void testGetArgTypesEmptyArray() {
+        Class<?>[] expectedTypes = new Class<?>[] {}; // empty array
+        Object[] args = new Object[] {}; // empty array
         Assert.assertArrayEquals(expectedTypes, getArgTypes(new Object[] { args }));
     }
 
-    // helper
+    /**
+     * Pass in null instead of array and get back empty array.
+     * Why not get back null?  An empty array is usually safer.
+     */
+    @Test
+    public void testGetArgTypesNullArray() {
+        Class<?>[] expectedTypes = new Class<?>[] {}; // empty array
+        Object[] args = null; // null
+        Assert.assertArrayEquals(expectedTypes, getArgTypes(new Object[] { args }));
+    }
+
+    /**
+     * A helper to call the real getArgTypes method.
+     * @param args the arguments for which to get types
+     * @return the types of the arguments
+     */
     private static Class<?>[] getArgTypes(Object[] args) {
         Class<?>[] argTypes = new Class<?>[] { Object[].class };
         return (Class<?>[])MethodAccessor.invoke(MethodAccessor.class, "getArgTypes", args, argTypes);
     }
 
+    /**
+     * Call a private method with no args.
+     */
     @Test
-    public void testParent() {
-        // create an object
-        MockParent parent = new MockParent("Charlie");
-        Assert.assertEquals(FieldAccessor.getValue(parent, "name"), "Charlie");
-
-        // setting a field
-        MethodAccessor.invoke(parent, "setName", "Timmah!");
-        Assert.assertEquals(FieldAccessor.getValue(parent,"name"), "Timmah!");
+    public void testGetNumber() {
+        SomeTestSubclass someObject = new SomeTestSubclass("John", 29);
+        Assert.assertEquals(29, MethodAccessor.invoke(someObject, "getNumber"));
     }
 
+    /**
+     * Invoke a private method.
+     */
     @Test
-    public void testChild() {
-        // create objects
-        MockChild child = new MockChild("Charlie", 8);
-        Assert.assertEquals(FieldAccessor.getValue(child, "name"), "Charlie");
-        Assert.assertEquals(FieldAccessor.getValue(child, "number"), Integer.valueOf(8));
+    public void testSetName() {
+        SomeTestClass someObject = new SomeTestClass("John");
+        Assert.assertEquals(FieldAccessor.getValue(someObject, "name"), "John");
 
-        // set fields
-        MethodAccessor.invoke(child, "setName", "Timmah!");
-        MethodAccessor.invoke(child, "setNumber", Integer.valueOf(3));
-
-        Assert.assertEquals(FieldAccessor.getValue(child,"name"), "Timmah!");
-        Assert.assertEquals(FieldAccessor.getValue(child, "number"), Integer.valueOf(3));
+        // update value and verify
+        MethodAccessor.invoke(someObject, "setName", "Abigail");
+        Assert.assertEquals(FieldAccessor.getValue(someObject, "name"), "Abigail");
     }
 
+    /**
+     * Invoke private methods in sub-class and parent class.
+     */
+    @Test
+    public void testSetNameAndNumber() {
+        SomeTestSubclass someObject = new SomeTestSubclass("John", 30);
+        Assert.assertEquals(FieldAccessor.getValue(someObject, "name"), "John");
+        Assert.assertEquals(FieldAccessor.getValue(someObject, "number"), 30);
+
+        // update values and verify
+        MethodAccessor.invoke(someObject, "setName", "Abigail");
+        MethodAccessor.invoke(someObject, "setNumber", Integer.valueOf(20));
+        Assert.assertEquals(FieldAccessor.getValue(someObject,"name"), "Abigail");
+        Assert.assertEquals(FieldAccessor.getValue(someObject, "number"), 20);
+    }
+
+    /**
+     * Invoke a multi-argument method.
+     */
     @Test
     public void testChildWithParentReference() {
-        MockParent parent = new MockChild("Charlie", 8);
-        Assert.assertEquals(FieldAccessor.getValue(parent, "name"), "Charlie");
-        Assert.assertEquals(FieldAccessor.getValue(parent, "number"), Integer.valueOf(8));
+        SomeTestClass someObject = new SomeTestSubclass("John", 31);
+        Assert.assertEquals(FieldAccessor.getValue(someObject, "name"), "John");
+        Assert.assertEquals(FieldAccessor.getValue(someObject, "number"), 31);
 
-        Object args[] = { "Timmah!", Integer.valueOf(3) };
-        MethodAccessor.invoke(parent, "setData", args);
-
-        Assert.assertEquals(FieldAccessor.getValue(parent,"name"), "Timmah!");
-        Assert.assertEquals(FieldAccessor.getValue(parent, "number"), Integer.valueOf(3));
-
-        MethodAccessor.invoke(parent, "setName", "prashant");
-        Assert.assertEquals(FieldAccessor.getValue(parent,"name"), "prashant");
+        // update values and verify
+        Object args[] = { "Abigail", 21 };
+        MethodAccessor.invoke(someObject, "setData", args);
+        Assert.assertEquals(FieldAccessor.getValue(someObject,"name"), "Abigail");
+        Assert.assertEquals(FieldAccessor.getValue(someObject, "number"), 21);
     }
 
+    /**
+     * Calling a method that does not exist throws an AccessorException.
+     */
     @Test
     public void testInvalidMethodName() {
-        MockChild child = new MockChild("Charlie", 8);
-
         AccessorException caughtException = null;
         try {
-            MethodAccessor.invoke(child, "zzz", "Timmah!");
+            SomeTestSubclass someObject = new SomeTestSubclass("John", 32);
+            MethodAccessor.invoke(someObject, "zzz", "Quincy");
         }
         catch (AccessorException e) {
             caughtException = e;
         }
-        Assert.assertNotNull("Should throw NoSuchMethodException", caughtException);
+        Assert.assertNotNull("Should throw AccessorException", caughtException);
+        Assert.assertNotNull("Should wrap NoSuchMethodException", caughtException.getCause());
+        Assert.assertEquals("Invalid method : zzz(java.lang.String)", caughtException.getCause().getMessage());
     }
 
+    /**
+     * Calling a method with invalid argument throws an AccessorException.
+     */
     @Test
     public void testInvalidArguments() {
-        MockChild child = new MockChild("Charlie", 8);
-
         AccessorException caughtException = null;
         try {
-            MethodAccessor.invoke(child, "setData", "Timmah!");
+            SomeTestSubclass someObject = new SomeTestSubclass("John", 33);
+            MethodAccessor.invoke(someObject, "setData", "Quincy"); // should be { name, number }
         }
         catch (AccessorException e) {
             caughtException = e;
         }
-        Assert.assertNotNull("Should throw NoSuchMethodException", caughtException);
+        Assert.assertNotNull("Should throw AccessorException", caughtException);
+        Assert.assertNotNull("Should wrap NoSuchMethodException", caughtException.getCause());
+        Assert.assertEquals("Invalid method : setData(java.lang.String)", caughtException.getCause().getMessage());
     }
 }
