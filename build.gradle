@@ -12,7 +12,7 @@ plugins {
 }
 
 description = 'Extensions for JUnit'
-version = '0.1'
+version = '1.0-SNAPSHOT'
 
 // My task to copy the jar into a known location for use by other projects
 task copyJar(type: Copy, group: "Custom", description: "Copies and renames the jar into lib directory") {

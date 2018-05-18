@@ -1,0 +1,124 @@
+<project name="JUnitMore" default="all" basedir=".">
+    <description>
+        Ant build file for JUnitMore project.
+    </description>
+
+    <!-- set global properties for this build -->
+    <property name="src"        location="src/main/java"/>
+    <property name="src_test"   location="src/test/java"/>
+    <property name="dist"       location="target"/>
+    <property name="build"      location="${dist}/classes"/>
+    <property name="build_test" location="${dist}/test-classes"/>
+
+    <!-- ==================== Init ==================== -->
+    <target name="all" depends="compile, test, package"/>
+
+    <!-- ==================== Init ==================== -->
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${dist}"/>
+
+        <property name="java.dir"  location="C:/Applications/Java"/>
+        <property name="junit.dir" location="${java.dir}/JUnit/junit4.12"/>
+        <property name="junit.jar" location="${junit.dir}/junit-4.12.jar"/>
+        <property name="hamcrest.jar" location="${junit.dir}/hamcrest-core-1.3.jar"/>
+
+        <property name="compile.target" value="1.8"/> <!-- compile to JDK 1.8 or 9 or 10 -->
+
+        <path id="main.classpath">
+            <pathelement location="${junit.jar}"/>
+            <pathelement location="${build}"/>
+        </path>
+        <!-- <echo>Main classpath = ${toString:main.classpath}</echo> -->
+
+        <path id="test.classpath">
+            <path refid="main.classpath"/>
+            <pathelement location="${hamcrest.jar}"/>
+            <pathelement location="${build_test}"/>
+        </path>
+        <!-- <echo>Test classpath = ${toString:test.classpath}</echo> -->
+    </target>
+
+    <!-- ==================== Clean ==================== -->
+    <target name="clean" description="clean up">
+        <delete dir="${dist}"/>
+    </target>
+
+    <!-- ==================== Compile ==================== -->
+    <target name="compile" depends="compileMain, compileTest" description="Compile the code"/>
+
+    <target name="compileInit" depends="init">
+        <property name="compile.debug" value="on"/>
+        <echo message="compile.debug is ${compile.debug}"/>
+
+        <property name="compile.nowarn" value="on"/>
+        <echo message="compile.nowarn is ${compile.nowarn}"/>
+
+        <property name="compile.deprecation" value="off"/>
+        <echo message="compile.deprecation is ${compile.deprecation}"/>
+
+        <property name="ant.build.javac.target" value="${compile.target}"/>
+        <echo message="ant.build.javac.target is ${ant.build.javac.target}"/>
+    </target>
+
+    <target name="compileMain" depends="compileInit" description="Compile the main code">
+        <mkdir dir="${build}"/>
+        <javac srcdir="${src}" destdir="${build}"
+                source="${ant.build.javac.target}" target="${ant.build.javac.target}"
+                debug="${compile.debug}" deprecation="${compile.deprecation}" nowarn="${compile.nowarn}">
+            <classpath refid="main.classpath"/>
+            <compilerarg value="-Xlint"/>
+        </javac>
+    </target>
+
+    <target name="compileTest" depends="compileInit" description="Compile the test code">
+        <mkdir dir="${build_test}"/>
+        <javac srcdir="${src_test}" destdir="${build_test}"
+                source="${ant.build.javac.target}" target="${ant.build.javac.target}"
+                debug="${compile.debug}" deprecation="${compile.deprecation}" nowarn="${compile.nowarn}">
+            <classpath refid="test.classpath"/>
+            <compilerarg value="-Xlint"/>
+        </javac>
+    </target>
+
+    <!-- ==================== Test ==================== -->
+    <target name="testInit" depends="init">
+        <property name="test.results.dir" location="${dist}/test-results"/>
+        <mkdir dir="${test.results.dir}"/>
+
+        <property name="test.report.dir"  location="${dist}/test-reports"/>
+        <mkdir dir="${test.report.dir}"/>
+    </target>
+
+    <target name="test" depends="testRun, testReport" description="Run the tests and generate the report"/>
+
+    <target name="testRun" depends="testInit" description="Run the tests">
+        <junit printsummary="yes">
+            <formatter type="xml"/>  <!-- must be XML for the junitreport -->
+            <classpath refid="test.classpath"/>
+            <batchtest fork="yes" todir="${test.results.dir}">
+                <fileset dir="${src_test}">
+                    <include name="**/*Test.java"/>
+                    <exclude name="**/*JUnit5Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="testReport" depends="testInit" description="Generate an HTML report based on the XML output of the tests">
+        <property name="junitreport.format" value="noframes"/>
+        <junitreport todir="${test.results.dir}">
+            <fileset dir="${test.results.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="${junitreport.format}" todir="${test.report.dir}"/>
+        </junitreport>
+    </target>
+
+    <!-- ==================== Package ==================== -->
+    <target name="package" depends="compile" description="Package into jar files">
+        <mkdir dir="${dist}/lib"/>
+        <jar jarfile="${dist}/lib/JUnitMore.jar" basedir="${build}"/>
+        <jar jarfile="${dist}/lib/JUnitMore-test.jar" basedir="${build_test}"/>
+    </target>
+</project>
