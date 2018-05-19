@@ -4,11 +4,12 @@
     </description>
 
     <!-- set global properties for this build -->
-    <property name="src"        location="src/main/java"/>
-    <property name="src_test"   location="src/test/java"/>
+    <property name="version"    value="1.0"/>
+    <property name="src"        location="src/main/java"/> <!-- Gradle and Maven -->
+    <property name="src_test"   location="src/test/java"/> <!-- Gradle and Maven -->
     <property name="dist"       location="target"/>
-    <property name="build"      location="${dist}/classes"/>
-    <property name="build_test" location="${dist}/test-classes"/>
+    <property name="build"      location="${dist}/classes"/>      <!-- Maven -->
+    <property name="build_test" location="${dist}/test-classes"/> <!-- Maven -->
 
     <!-- ==================== Init ==================== -->
     <target name="all" depends="compile, test, package"/>
@@ -18,13 +19,13 @@
         <tstamp/>
         <mkdir dir="${dist}"/>
 
+        <!-- dependencies -->
         <property name="java.dir"  location="C:/Applications/Java"/>
         <property name="junit.dir" location="${java.dir}/JUnit/junit4.12"/>
         <property name="junit.jar" location="${junit.dir}/junit-4.12.jar"/>
         <property name="hamcrest.jar" location="${junit.dir}/hamcrest-core-1.3.jar"/>
 
-        <property name="compile.target" value="1.8"/> <!-- compile to JDK 1.8 or 9 or 10 -->
-
+        <!-- classpaths -->
         <path id="main.classpath">
             <pathelement location="${junit.jar}"/>
             <pathelement location="${build}"/>
@@ -41,6 +42,9 @@
 
     <!-- ==================== Clean ==================== -->
     <target name="clean" description="clean up">
+        <delete dir="bin"/>    <!-- Eclipse -->
+        <delete dir="build"/>  <!-- Gradle -->
+        <delete dir="target"/> <!-- Maven -->
         <delete dir="${dist}"/>
     </target>
 
@@ -48,6 +52,10 @@
     <target name="compile" depends="compileMain, compileTest" description="Compile the code"/>
 
     <target name="compileInit" depends="init">
+        <property name="compile.target" value="1.8"/> <!-- compile to JDK 1.8 or 9 or 10 -->
+        <property name="ant.build.javac.target" value="${compile.target}"/>
+        <echo message="compile.target is ${compile.target}"/>
+
         <property name="compile.debug" value="on"/>
         <echo message="compile.debug is ${compile.debug}"/>
 
@@ -56,9 +64,6 @@
 
         <property name="compile.deprecation" value="off"/>
         <echo message="compile.deprecation is ${compile.deprecation}"/>
-
-        <property name="ant.build.javac.target" value="${compile.target}"/>
-        <echo message="ant.build.javac.target is ${ant.build.javac.target}"/>
     </target>
 
     <target name="compileMain" depends="compileInit" description="Compile the main code">
@@ -118,7 +123,7 @@
     <!-- ==================== Package ==================== -->
     <target name="package" depends="compile" description="Package into jar files">
         <mkdir dir="${dist}/lib"/>
-        <jar jarfile="${dist}/lib/JUnitMore.jar" basedir="${build}"/>
-        <jar jarfile="${dist}/lib/JUnitMore-test.jar" basedir="${build_test}"/>
+        <jar jarfile="${dist}/junit-more-${version}.jar" basedir="${build}"/>
+        <jar jarfile="${dist}/junit-more-test-${version}.jar" basedir="${build_test}"/>
     </target>
 </project>

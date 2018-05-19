@@ -12,26 +12,23 @@ plugins {
 }
 
 description = 'Extensions for JUnit'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 
 // My task to copy the jar into a known location for use by other projects
-task copyJar(type: Copy, group: "Custom", description: "Copies and renames the jar into lib directory") {
-    from('build/libs/')
-    into('lib/')
-    include("JUnitMore-${version}.jar")
-    rename("JUnitMore-${version}.jar", 'junitmore.jar')
-}
+// task copyJar(type: Copy, group: "Custom", description: "Copies and renames the jar into lib directory") {
+//     from('build/libs/')
+//     into('lib/')
+//     include("junit-more-${version}.jar")
+//     rename("junit-more-${version}.jar", "junit-more.jar")
+// }
 
 build.doLast {
     tasks.copyJar.execute()
 }
 
 dependencies {
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api 'org.apache.commons:commons-math3:3.6.1'
-
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'com.google.guava:guava:23.0', 'junit:junit:4.12'
+    implementation 'junit:junit:4.12'
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
