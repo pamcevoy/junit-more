@@ -14,10 +14,6 @@ plugins {
 description = 'Extensions for JUnit'
 version = '1.1-SNAPSHOT'
 
-build.doLast {
-    tasks.copyJar.execute()
-}
-
 dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'junit:junit:4.12'
