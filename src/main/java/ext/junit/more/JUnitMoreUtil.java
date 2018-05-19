@@ -4,8 +4,8 @@
 package ext.junit.more;
 
 /**
+ * Utilities for use with junit-more code.
  * @author Patrick
- *
  */
 public class JUnitMoreUtil {
     /**
