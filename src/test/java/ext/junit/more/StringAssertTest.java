@@ -244,4 +244,76 @@ public class StringAssertTest {
         String expectedMessage = "Greek letters: Value at 5 equals value at 1. Actual: Beta";
         Assert.assertEquals(expectedMessage, caught.getMessage());
     }
+
+    //
+    // assertEqualsIgnoreLineSeparator
+    //
+
+    @Test
+    public void testEqualsIgnoreLineSeparatorNull() {
+    	AssertionError caught = null;
+    	try {
+        	StringAssert.assertEqualsIgnoreLineSeparator(null, "xxx");
+    	}
+    	catch (AssertionError e) {
+    		caught = e;
+    	}
+    	String expectedMessage = "expected:<null> but was:<xxx>";
+    	Assert.assertEquals(expectedMessage, caught.getMessage());
+    }
+
+    @Test
+    public void testEqualsIgnoreLineSeparatorEmpty() {
+    	AssertionError caught = null;
+    	try {
+        	StringAssert.assertEqualsIgnoreLineSeparator("", "xxx");
+    	}
+    	catch (AssertionError e) {
+    		caught = e;
+    	}
+    	String expectedMessage = "expected:<[]> but was:<[xxx]>";
+    	Assert.assertEquals(expectedMessage, caught.getMessage());
+    }
+
+    @Test
+    public void testEqualsIgnoreLineSeparator1() {
+    	String str = "able baker charlie";
+    	testEqualsIgnoreLineSeparator(str, str);
+    }
+
+    @Test
+    public void testEqualsIgnoreLineSeparator2() {
+    	String str = "able baker charlie" + StringAssert.LINE_SEPARATOR;
+    	testEqualsIgnoreLineSeparator(str, str);
+    }
+
+    @Test
+    public void testEqualsIgnoreLineSeparator3() {
+    	String str1 = "able baker charlie";
+    	String str2 = str1 + StringAssert.LINE_SEPARATOR;
+    	testEqualsIgnoreLineSeparator(str1, str2);
+    }
+
+    @Test
+    public void testEqualsIgnoreLineSeparator4() {
+    	String str1 = "able baker charlie";
+    	String str2 = "able " + StringAssert.LINE_SEPARATOR + "baker " + StringAssert.LINE_SEPARATOR + "charlie";
+    	testEqualsIgnoreLineSeparator(str1, str2);
+    }
+
+    /**
+     * Test that these Strings are equal.
+     * @param str1 the first String
+     * @param str2 the second String
+     */
+    private void testEqualsIgnoreLineSeparator(String str1, String str2) {
+    	AssertionError caught = null;
+    	try {
+        	StringAssert.assertEqualsIgnoreLineSeparator(str1, str2);
+    	}
+    	catch (AssertionError e) {
+    		caught = e;
+    	}
+    	Assert.assertNull(caught);
+    }
 }

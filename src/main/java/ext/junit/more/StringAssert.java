@@ -10,6 +10,9 @@ import org.junit.Assert;
  * @author Patrick
  */
 public class StringAssert {
+	/** The line separator (/r, /n, or /r/n). */
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
     /**
      * Private constructor for utility class.
      */
@@ -146,5 +149,33 @@ public class StringAssert {
      */
     private static String formatUniqueMessage(Object... args) {
         return String.format("%sValue at %d equals value at %d", args);
+    }
+ 
+    /**
+     * Assert the Strings are equal while ignoring line separators.
+     * @param expected the expected String
+     * @param actual the actual String
+     */
+    public static void assertEqualsIgnoreLineSeparator(String expected, String actual) {
+    	assertEqualsIgnoreLineSeparator(null, expected, actual);
+    }
+
+    /**
+     * Assert the Strings are equal while ignoring line separators.
+     * @param message the message for an error
+     * @param expected the expected String
+     * @param actual the actual String
+     */
+    public static void assertEqualsIgnoreLineSeparator(String message, String expected, String actual) {
+        Assert.assertEquals(message, stripLineSeparator(expected), stripLineSeparator(actual));
+    }
+
+    /**
+     * Strip the line separator out of this String.
+     * @param str the String
+     * @return the String without any line separators
+     */
+    private static String stripLineSeparator(String str) {
+        return (str == null) ? null : str.replace(LINE_SEPARATOR, "");
     }
 }
