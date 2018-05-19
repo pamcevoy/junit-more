@@ -3,7 +3,7 @@
  *
  * This generated file contains a sample Java Library project to get you started.
  * For more details take a look at the Java Libraries chapter in the Gradle
- * user guide available at https://docs.gradle.org/4.6/userguide/java_library_plugin.html
+ * user guide available at https://docs.gradle.org/4.7/userguide/java_library_plugin.html
  */
 
 plugins {
@@ -12,15 +12,7 @@ plugins {
 }
 
 description = 'Extensions for JUnit'
-version = '1.0'
-
-// My task to copy the jar into a known location for use by other projects
-// task copyJar(type: Copy, group: "Custom", description: "Copies and renames the jar into lib directory") {
-//     from('build/libs/')
-//     into('lib/')
-//     include("junit-more-${version}.jar")
-//     rename("junit-more-${version}.jar", "junit-more.jar")
-// }
+version = '1.1-SNAPSHOT'
 
 build.doLast {
     tasks.copyJar.execute()
