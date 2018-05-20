@@ -74,4 +74,18 @@ public class UtilAssert {
         Assert.assertFalse("Missing some values", expected.hasMoreElements());
         Assert.assertFalse("Too many values", actual.hasMoreElements());
     }
+
+    /**
+     * Assert that this list contains this item.
+     *
+     * @param <T> the type of the expected item and the list (e.g. String)
+     * @param expected the item
+     * @param actual the list
+     */
+    public static <T> void assertContains(T expected, List<T> actual) {
+        if (!actual.contains(expected)) {
+            String messageFmt = "Expected object '%s' not contained in list '%s'.";
+            Assert.fail(String.format(messageFmt, expected, actual));
+        }
+    }
 }

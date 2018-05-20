@@ -176,4 +176,25 @@ public class UtilAssertTest {
     	someVector.addAll(someList);
     	return someVector.elements();
     }
+
+    //
+    // assertContains
+    //
+
+    @Test
+    public void testContains1() {
+    	UtilAssert.assertContains("Gamma", expectedList);
+    }
+
+    @Test
+    public void testContains2() {
+    	AssertionError caught = null;
+    	try {
+        	UtilAssert.assertContains("Epsilon", expectedList);
+    	}
+    	catch (AssertionError e) {
+    		caught = e;
+    	}
+    	Assert.assertEquals("Expected object 'Epsilon' not contained in list '[Alpha, Beta, Gamma, Delta]'.", caught.getMessage());
+    }
 }
