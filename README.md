@@ -1,2 +1,2 @@
-JUnitMore
+#JUnitMore
 Some extensions for JUnit
