@@ -197,4 +197,34 @@ public class UtilAssertTest {
     	}
     	Assert.assertEquals("Expected object 'Epsilon' not contained in list '[Alpha, Beta, Gamma, Delta]'.", caught.getMessage());
     }
+
+    //
+    // assertSorted
+    //
+    @Test
+    public void testSorted1() {
+    	List<Object> values = Arrays.asList(
+    			"apple", "banana", "cranberry", "date", "eggplant", "french toast",
+    			"grapes", "grapes", "grapes" // duplicates
+    	);
+    	UtilAssert.assertSorted(values);
+    }
+
+    @Test
+    public void testSorted2() {
+        AssertionError caught = null;
+        try {
+            List<Object> values = Arrays.asList(
+                    "ape",
+                    "gorilla",
+                    "zebra", // out of order
+                    "monkey"
+            );
+            UtilAssert.assertSorted(values);
+        }
+        catch (AssertionError e) {
+            caught = e;
+        }
+        Assert.assertEquals("Not sorted: 'zebra' should come after 'monkey'.", caught.getMessage());
+    }
 }

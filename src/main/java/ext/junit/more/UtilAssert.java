@@ -3,6 +3,8 @@
  */
 package ext.junit.more;
 
+import java.text.Collator;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -86,6 +88,31 @@ public class UtilAssert {
         if (!actual.contains(expected)) {
             String messageFmt = "Expected object '%s' not contained in list '%s'.";
             Assert.fail(String.format(messageFmt, expected, actual));
+        }
+    }
+
+    /**
+     * Assert that this List is sorted.
+     * @param actualList the List of Objects (actually Strings)
+     */
+    public static void assertSorted(List<Object> actualList) {
+        assertSorted(actualList, Collator.getInstance());
+    }
+
+    /**
+     * Assert that this List is sorted according to this Comparator.
+     *
+     * @param <T> the type of objects in the List
+     * @param actualList the List
+     * @param c the Comparator
+     */
+    public static <T> void assertSorted(List<T> actualList, Comparator<T> c) {
+        int size = (actualList == null) ? 0 : actualList.size() - 1;
+        for (int i = 0; i < size; i++) {
+            T a = actualList.get(i);
+            T b = actualList.get(i + 1);
+            String failMessage = String.format("Not sorted: '%s' should come after '%s'.", a, b);
+            Assert.assertTrue(failMessage, c.compare(a, b) <= 0);
         }
     }
 }
