@@ -12,7 +12,7 @@ plugins {
 }
 
 description = 'Extensions for JUnit'
-version = '1.2-SNAPSHOT'
+version = '1.2'
 
 dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
