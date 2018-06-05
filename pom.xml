@@ -3,15 +3,18 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ext.junit</groupId>
+  <groupId>junit</groupId>
   <artifactId>junit-more</artifactId>
   <packaging>jar</packaging>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.4-SNAPSHOT</version>
 
   <name>JUnitMore</name>
   <url>https://github.com/pamcevoy/junit-more</url>
 
   <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <dependencies>
