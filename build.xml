@@ -4,7 +4,7 @@
     </description>
 
     <!-- set global properties for this build -->
-    <property name="version"    value="1.3-SHAPSHOT"/>
+    <property name="version"    value="1.4-SNAPSHOT"/>
     <property name="src"        location="src/main/java"/> <!-- Gradle and Maven -->
     <property name="src_test"   location="src/test/java"/> <!-- Gradle and Maven -->
     <property name="dist"       location="target"/>
