@@ -49,7 +49,7 @@ public class FileAssertTest {
      */
     @Test
     public void testFileExists() {
-        FileAssert.assertExists(new File(javaDir, "LICENSE"));
+        FileAssert.assertExists(new File(javaDir, "README.html"));
     }
 
     /**
