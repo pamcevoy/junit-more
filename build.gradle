@@ -14,7 +14,7 @@ description = 'Extensions for JUnit'
 version = '1.4-SNAPSHOT'
 
 build.doLast {
-    tasks.copyJar.execute()
+    //tasks.copyJar.execute()
 }
 
 dependencies {
@@ -34,12 +34,12 @@ repositories {
     jcenter()
 }
 
-task copyJar(type: Copy, group: "Custom", description: "Copies the jar into lib directory") {
-    from('build/libs/')
-    into('lib/')
-    include("junit-more-${version}.jar")
-    rename("junit-more-${version}.jar", "junit-more.jar")
-}
+//task copyJar(type: Copy, group: "Custom", description: "Copies the jar into lib directory") {
+//    from('build/libs/')
+//    into('lib/')
+//    include("junit-more-${version}.jar")
+//    rename("junit-more-${version}.jar", "junit-more.jar")
+//}
 
 spotbugs {
   toolVersion = '3.1.7'
