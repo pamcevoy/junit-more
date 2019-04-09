@@ -7,7 +7,7 @@ plugins {
     id 'java-library'
 
     // SpotBugs
-    id "com.github.spotbugs" version "1.6.3"
+    id "com.github.spotbugs" version "1.7.1" // 4/8/2019
 }
 
 description = 'Extensions for JUnit'
@@ -24,7 +24,7 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 
-    spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.8.0'
+    //spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.8.0'
 }
 
 // declare where to find the dependencies of your project

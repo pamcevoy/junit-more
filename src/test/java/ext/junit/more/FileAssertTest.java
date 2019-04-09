@@ -49,7 +49,7 @@ public class FileAssertTest {
      */
     @Test
     public void testFileExists() {
-        FileAssert.assertExists(new File(javaDir, "COPYRIGHT"));
+        FileAssert.assertExists(new File(javaDir, "release")); // exists JDK 1.8 to 12
     }
 
     /**
