@@ -11,7 +11,7 @@ plugins {
 }
 
 description = 'Extensions for JUnit'
-version = '1.4-SNAPSHOT'
+version = '1.4'
 
 build.doLast {
     //tasks.copyJar.execute()
@@ -42,5 +42,5 @@ repositories {
 //}
 
 spotbugs {
-  toolVersion = '3.1.7'
+  toolVersion = '3.1.9'
 }
