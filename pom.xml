@@ -6,7 +6,7 @@
   <groupId>junit</groupId>
   <artifactId>junit-more</artifactId>
   <packaging>jar</packaging>
-  <version>1.4</version>
+  <version>1.5</version>
 
   <name>JUnitMore</name>
   <url>https://github.com/pamcevoy/junit-more</url>
@@ -31,10 +31,11 @@
     <plugins>
 
       <!-- Compile -->
+      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>3.8.1</version> <!-- May 2019 -->
         <configuration>
           <source>11</source> <!-- 1.8, 10, 9, 11, or 12 -->
           <target>11</target>
@@ -42,22 +43,24 @@
       </plugin>
 
       <!-- PMD -->
+      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-pmd-plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.12.0</version> <!-- April 2019 -->
       </plugin>
 
       <!-- SpotBugs -->
+      <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin -->
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>3.1.11</version>
+        <version>3.1.12</version> <!-- June 2019 -->
         <dependencies>
           <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs</artifactId>
-            <version>3.1.11</version>
+            <version>3.1.12</version> <!-- see above -->
           </dependency>
         </dependencies>
       </plugin>
@@ -69,10 +72,11 @@
     <plugins>
 
       <!-- PMD -->
+      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-pmd-plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.11.0</version> <!-- uses PMD 6.0.1 -->
+        <version>3.12.0</version> <!-- April 2019 -->
         <configuration>
           <analysisCache>true</analysisCache> <!-- enable incremental analysis -->
           <linkXref>true</linkXref>
@@ -84,7 +88,7 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>3.1.11</version>
+        <version>3.1.12</version> <!-- see above -->
       </plugin>
 
     </plugins>
