@@ -11,7 +11,7 @@ plugins {
 }
 
 description = 'Extensions for JUnit'
-version = '1.4'
+version = '1.5'
 
 build.doLast {
     //tasks.copyJar.execute()
