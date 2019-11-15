@@ -17,6 +17,36 @@ import org.junit.Assert;
 public class UtilAssert {
     /**
      * Assert that these Lists are equal.
+     * @param expecteds the expected values
+     * @param actuals the actual values
+     */
+    public static void assertListEquivalent(final List<?> expecteds, final List<?> actuals) {
+        assertListEquivalent(null, expecteds, actuals);
+    }
+
+    /**
+     * Assert that these Lists are equal.
+     * @param message the message if not equal
+     * @param expecteds the expected values
+     * @param actuals the actual values
+     */
+    public static void assertListEquivalent(final String message, final List<?> expecteds, final List<?> actuals) {
+        String header = JUnitMoreUtil.formatHeader(message);
+
+        // quick check of sizes
+        String failMessage = String.format("%sThe sizes are different,", header);
+        Assert.assertEquals(failMessage, expecteds.size(), actuals.size());
+
+        // check each element
+        for (int index = 0; index < expecteds.size(); index++) {
+            failMessage = String.format("%sDifferent element at %d,", header, index);
+            Object expected = expecteds.get(index);
+            Assert.assertTrue(failMessage, actuals.contains(expected));
+        }
+    }
+
+    /**
+     * Assert that these Lists are equal.
      * @param expected the expected values
      * @param actual the actual values
      */
