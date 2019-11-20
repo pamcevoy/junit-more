@@ -13,7 +13,9 @@ import org.junit.Test;
  * @author Patrick
  */
 public class RandomStringTest {
-    private static final int NUM_TESTS = 10000;
+    private static final int NUM_TESTS = 10_000;
+
+    private static final float VARIANCE_FACTOR = 0.5f;
 
     private final RandomString random = new RandomString();
 
@@ -45,7 +47,11 @@ public class RandomStringTest {
         }
 
         // bytes are 8 bits so there should be 2^8 = 256 keys
-        NumberAssert.assertGreaterThan(howMany(256), counter.size());
+        int expectedMin = getMinCount(256);
+        int expectedMax = getMaxCount(256);
+        for (byte b = 0; b < 256; b++) {
+            NumberAssert.assertBetween(expectedMin, counter.count(b), expectedMax);
+        }
     }
 
     /**
@@ -59,20 +65,35 @@ public class RandomStringTest {
         }
 
         // nextChar generates a-z and A-Z so 52 possible values
-        NumberAssert.assertGreaterThan(howMany(52), counter.size());
+        int expectedMin = getMinCount(52);
+        int expectedMax = getMaxCount(52);
+        for (int i = 0; i < 26; i++) {
+            char c1 = (char)('a' + i);
+            NumberAssert.assertBetween(expectedMin, counter.count(c1), expectedMax);
+
+            char c2 = (char)('A' + i);
+            NumberAssert.assertBetween(expectedMin, counter.count(c2), expectedMax);
+        }
     }
 
     /**
      * How many keys are expected given the max possible values?
-     * @param maxValuesForType max value count
+     * @param holeCount number of holes for pigeons
      * @return expectedMin
      */
-    private static int howMany(int maxValuesForType) {
-        // We expect the value to be evenly distributed over the space
-        // but if the space is greater than the number of tests,
-        // then take the min of space or number of tests.
-        // Then scale a little bit because it won't be totally evenly distributed.
-        return (int)(0.9 * Math.min(maxValuesForType, NUM_TESTS));
+    private static int getMinCount(int holeCount) {
+        int expectedCount = NUM_TESTS / holeCount;
+        return (int)((1 - VARIANCE_FACTOR) * expectedCount);
+    }
+
+    /**
+     * How many keys are expected given the max possible values?
+     * @param holeCount number of holes for pigeons
+     * @return expectedMax
+     */
+    private static int getMaxCount(int holeCount) {
+        int expectedCount = NUM_TESTS / holeCount;
+        return (int)((1 + VARIANCE_FACTOR) * expectedCount);
     }
 
     /**
