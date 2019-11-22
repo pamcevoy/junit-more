@@ -29,10 +29,11 @@ public class RandomString extends Random {
 
     /**
      * Returns the next random byte.
+     * Bytes are -128 to 127 but let's use just positive values.
      * @return the next random byte
      */
     public byte nextByte() {
-        return (byte)nextInt(256);
+        return (byte)nextInt(128);
     }
 
     /**

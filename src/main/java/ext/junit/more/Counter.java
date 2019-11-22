@@ -19,10 +19,25 @@ public class Counter {
         countMap = new HashMap<Object,ObjectCount>();
     }
 
+    /**
+     * Clear all the entries in the counter.
+     */
+    public void clear() {
+        countMap.clear();
+    }
+
+    /**
+     * Get the number of keys in the counter.
+     * @return the number of keys
+     */
     public int size() {
         return countMap.size();
     }
 
+    /**
+     * Get the keys in the counter.
+     * @return the keys
+     */
     public Set<Object> keySet() {
         return countMap.keySet();
     }
