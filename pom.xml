@@ -6,7 +6,7 @@
   <groupId>junit</groupId>
   <artifactId>junit-more</artifactId>
   <packaging>jar</packaging>
-  <version>1.6</version>
+  <version>1.7</version>
 
   <name>JUnitMore</name>
   <url>https://github.com/pamcevoy/junit-more</url>
