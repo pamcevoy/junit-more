@@ -37,8 +37,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version> <!-- May 2019 -->
         <configuration>
-          <source>11</source> <!-- 1.8 or 9 through 13 -->
-          <target>11</target>
+          <source>${maven.compiler.source}</source> <!-- 1.8 or 9 through 13 -->
+          <target>${maven.compiler.target}</target>
         </configuration>
       </plugin>
 
@@ -80,7 +80,7 @@
         <configuration>
           <analysisCache>true</analysisCache> <!-- enable incremental analysis -->
           <linkXref>true</linkXref>
-          <targetJdk>11</targetJdk> <!-- 1.8 or 9, through 13 -->
+          <targetJdk>${maven.compiler.target}</targetJdk> <!-- 1.8 or 9, through 13 -->
         </configuration>
       </plugin>
 
