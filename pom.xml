@@ -12,8 +12,7 @@
   <url>https://github.com/pamcevoy/junit-more</url>
 
   <properties>
-    <maven.compiler.source>11</maven.compiler.source> <!-- 1.8 or 9 through 13 -->
-    <maven.compiler.target>11</maven.compiler.target>
+    <java.version>11</java.version> <!-- 1.8 or 9 through 13 -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -37,8 +36,13 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version> <!-- May 2019 -->
         <configuration>
-          <source>${maven.compiler.source}</source> <!-- 1.8 or 9 through 13 -->
-          <target>${maven.compiler.target}</target>
+          <source>${java.version}</source> <!-- 1.8 or 9 through 13 -->
+          <target>${java.version}</target>
+          <showWarnings>true</showWarnings>
+          <compilerArgs>
+              <arg>-Xlint:all</arg>
+              <!-- <arg>-Werror</arg> -->
+          </compilerArgs>
         </configuration>
       </plugin>
 
