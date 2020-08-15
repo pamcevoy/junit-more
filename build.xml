@@ -21,8 +21,8 @@
 
         <!-- dependencies -->
         <property name="java.dir"  location="C:/Applications/Java"/>
-        <property name="junit.dir" location="${java.dir}/JUnit/junit4.12"/>
-        <property name="junit.jar" location="${junit.dir}/junit-4.12.jar"/>
+        <property name="junit.dir" location="${java.dir}/JUnit/junit4-r4.13"/>
+        <property name="junit.jar" location="${junit.dir}/lib/junit-4.13.jar"/>
         <property name="hamcrest.jar" location="${junit.dir}/hamcrest-core-1.3.jar"/>
 
         <!-- classpaths -->
@@ -56,7 +56,7 @@
     <target name="compile" depends="compileMain, compileTest" description="Compile the code"/>
 
     <target name="compileInit" depends="init">
-        <property name="compile.target" value="11"/> <!-- 1.8, 9, 10, 11 or 12 -->
+        <property name="compile.target" value="11"/> <!-- 1.8 or 9 through 14 -->
         <property name="ant.build.javac.target" value="${compile.target}"/>
         <echo message="compile.target is ${compile.target}"/>
 
