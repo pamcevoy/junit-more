@@ -7,11 +7,11 @@ plugins {
     id 'java-library'
 
     // SpotBugs
-    id "com.github.spotbugs" version "4.2.0"
+    id "com.github.spotbugs" version "4.2.3"
 }
 
 description = 'Extensions for JUnit'
-version = '1.6'
+version = '1.9'
 
 build.doLast {
     //tasks.copyJar.execute()
@@ -19,10 +19,10 @@ build.doLast {
 
 dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'junit:junit:4.13'
+    implementation 'junit:junit:4.13.2'
 
     // Use JUnit test framework
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
 
     //spotbugsPlugins
     //spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.10.1'
